@@ -1,0 +1,20 @@
+{
+  "name": "dnd_task_management_backend",
+  "version": "1.0.0",
+  "main": "./src/server.js",
+  "author": "shafiul azim",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.23.2"
+  },
+  "scripts": {
+    "start": "nodemon ./src/server.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
