@@ -1,19 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import CreateTask from "../components/CreateTask";
 import TodoContainer from "../components/TodoContainer";
-
-const itemArr = [
-  { id: 1, title: "task 1" },
-  { id: 2, title: "task 2" },
-  { id: 3, title: "task 3" },
-  { id: 4, title: "task 4" },
-  { id: 5, title: "task 5" },
-  { id: 6, title: "task 6" },
-];
+import {
+  createTask,
+  getAllTask,
+  statusType,
+  updateTask,
+} from "../store/taskSlice";
 
 const Home = () => {
   const [task, setTask] = useState("");
+  const tasks = useSelector(({ task }) => task);
+  const dispatch = useDispatch();
 
   const handleTaskChange = (e) => {
     e.preventDefault();
@@ -23,7 +23,34 @@ const Home = () => {
 
   const handleTaskSubmit = (e) => {
     e.preventDefault();
+    if (!task) return;
+    dispatch(createTask(task));
+    setTask("");
   };
+
+  const dragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const onDrop = (e, status) => {
+    const id = e.dataTransfer.getData("todoID");
+
+    if (status === "listed") {
+      dispatch(updateTask(id, statusType.listed));
+    }
+
+    if (status === "progress") {
+      dispatch(updateTask(id, statusType.progress));
+    }
+
+    if (status === "done") {
+      dispatch(updateTask(id, statusType.done));
+    }
+  };
+
+  useEffect(() => {
+    dispatch(getAllTask());
+  }, []);
 
   return (
     <Container>
@@ -39,9 +66,24 @@ const Home = () => {
 
       {/* Todo container that contain Todos */}
       <TodosWrapper>
-        <TodoContainer title="To Do" items={itemArr} />
-        <TodoContainer title="In progress" items={itemArr} />
-        <TodoContainer title="Done" items={itemArr} />
+        <TodoContainer
+          onDragOver={dragOver}
+          onDrop={(e) => onDrop(e, "listed")}
+          title="To Do"
+          items={tasks.listed}
+        />
+        <TodoContainer
+          onDragOver={dragOver}
+          onDrop={(e) => onDrop(e, "progress")}
+          title="In progress"
+          items={tasks.progress}
+        />
+        <TodoContainer
+          onDragOver={dragOver}
+          onDrop={(e) => onDrop(e, "done")}
+          title="Done"
+          items={tasks.done}
+        />
       </TodosWrapper>
     </Container>
   );

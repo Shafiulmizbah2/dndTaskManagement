@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const TodoCard = ({ title }) => {
+const TodoCard = ({ title, onDragStart }) => {
   return (
-    <Container>
+    <Container draggable onDragStart={onDragStart}>
       <Title>{title}</Title>
     </Container>
   );

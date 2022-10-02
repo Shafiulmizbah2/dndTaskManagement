@@ -13,6 +13,6 @@ app.use(
 app.use(express.json());
 
 //Routes
-app.use("/tasks", taskRouter);
+app.use("/api/tasks", taskRouter);
 
 module.exports = app;

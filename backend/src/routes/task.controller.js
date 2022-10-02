@@ -28,11 +28,22 @@ const createTask = async (req, res) => {
 
 const getTasks = async (req, res) => {
   try {
-    const tasks = await Task.findAll();
+    const listed = await Task.findAll({
+      where: { status: 0 },
+      order: [["updatedAt", "DESC"]],
+    });
+    const progress = await Task.findAll({
+      where: { status: 1 },
+      order: [["updatedAt", "DESC"]],
+    });
+    const done = await Task.findAll({
+      where: { status: 2 },
+      order: [["updatedAt", "DESC"]],
+    });
 
-    const listed = tasks.filter((item) => item.status == 0);
-    const progress = tasks.filter((item) => item.status == 1);
-    const done = tasks.filter((item) => item.status == 2);
+    // const listed = tasks.filter((item) => item.status == 0);
+    // const progress = tasks.filter((item) => item.status == 1);
+    // const done = tasks.filter((item) => item.status == 2);
 
     return res.status(200).json({
       status: "success",

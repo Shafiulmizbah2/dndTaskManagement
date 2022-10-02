@@ -2,16 +2,30 @@ import React from "react";
 import styled from "styled-components";
 import TodoCard from "./TodoCard";
 
-const TodoContainer = ({ title = "heading", items = [] }) => {
+const TodoContainer = ({
+  title = "heading",
+  items = [],
+  onDragOver,
+  onDrop,
+  ...rest
+}) => {
+  const onDragStart = (e, id) => {
+    e.dataTransfer.setData("todoID", id);
+  };
+
   return (
-    <Container>
+    <Container droppable onDragOver={onDragOver} onDrop={onDrop} {...rest}>
       <Head>
         <Title>{title}</Title>
       </Head>
       <Body>
         {!items.length && <Error>No task to found!</Error>}
         {items.map((item) => (
-          <TodoCard title={item.title} key={item.id} />
+          <TodoCard
+            title={item.name}
+            key={item.id}
+            onDragStart={(e) => onDragStart(e, item.id)}
+          />
         ))}
       </Body>
     </Container>

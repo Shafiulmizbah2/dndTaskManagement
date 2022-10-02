@@ -22,6 +22,8 @@ if you are using npm then type
 
 # Endpoints
 
-get all task =GET, http://localhost:8000/tasks
-create task =POST, http://localhost:8000/tasks
-Update task =PATCH, http://localhost:8000/tasks/id [id is the task id]
+get all task =GET, http://localhost:8000/api/tasks
+create task =POST, http://localhost:8000/api/tasks
+Update task =PATCH, http://localhost:8000/api/tasks/id [id is the task id].
+
+[Note : please pass the status value 0,1,2 respectively listed,in-progress & done for updating task ].
