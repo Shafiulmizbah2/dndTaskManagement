@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const taskRouter = require("./routes/task.route");
 const app = express();
 
 //middlewares
@@ -12,5 +13,6 @@ app.use(
 app.use(express.json());
 
 //Routes
+app.use("/tasks", taskRouter);
 
 module.exports = app;
